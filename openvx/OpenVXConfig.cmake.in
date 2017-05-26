@@ -1,0 +1,27 @@
+SET(OpenVX_VERSION "@OPENVX_VERSION@")
+SET(OpenVX_VERSION_MAJOR  "@OPENVX_MAJOR_VERSION@")
+SET(OpenVX_VERSION_MINOR  "@OPENVX_MINOR_VERSION@")
+SET(OpenVX_VERSION_PATCH  "@OPENVX_PATCH_VERSION@")
+
+
+find_package(PkgConfig)
+pkg_check_modules(PC_OPENVX QUIET openvx)
+
+find_path(OPENVX_INCLUDE_DIR vx.h
+          HINTS ${PC_OPENVX_INCLUDEDIR}
+	)
+
+find_library(OPENVX_LIBRARY NAMES openvx
+             HINTS ${PC_OPENVX_LIBDIR}
+	)
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(OpenVX 
+                                REQUIRED_VARS OPENVX_LIBRARY OPENVX_INCLUDE_DIR
+				VERSION_VAR OPENVX_VERSION)
+
+mark_as_advanced(OPENVX_INCLUDE_DIR OPENVX_LIBRARY)
+
+set(OpenVX_LIBRARIES ${OPENVX_LIBRARY})
+set(OpenVX_INCLUDE_DIRS ${OPENVX_INCLUDE_DIR})
+set(OpenVX_DEFINITIONS ${PC_OPENVX_CFLAGS_OTHER})

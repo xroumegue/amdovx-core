@@ -19,7 +19,13 @@
 # THE SOFTWARE.
 
 cmake_minimum_required (VERSION 2.8)
-project (openvx)
+
+project (OpenVX CXX C)
+set(OPENVX_MAJOR_VERSION 0)
+set(OPENVX_MINOR_VERSION 1)
+set(OPENVX_PATCH_VERSION 0)
+set(OPENVX_VERSION
+  ${OPENVX_MAJOR_VERSION}.${OPENVX_MINOR_VERSION}.${OPENVX_PATCH_VERSION})
 
 set (CMAKE_CXX_STANDARD 11)
 
@@ -117,3 +123,18 @@ install(FILES
 	 COMPONENT
 	 dev
 	 )
+
+configure_file(OpenVXConfigVersion.cmake.in
+  "${PROJECT_BINARY_DIR}/OpenVXConfigVersion.cmake" @ONLY)
+
+configure_file(OpenVXConfig.cmake.in
+  "${PROJECT_BINARY_DIR}/OpenVXConfig.cmake" @ONLY)
+
+install(FILES
+	"${CMAKE_CURRENT_BINARY_DIR}/OpenVXConfig.cmake"
+	"${CMAKE_CURRENT_BINARY_DIR}/OpenVXConfigVersion.cmake"
+	DESTINATION
+	"${prefix}/share/OpenVX"
+	COMPONENT
+	dev
+	)
